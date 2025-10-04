@@ -1,0 +1,119 @@
+#include <iostream>
+#include <iomanip>
+#include <algorithm>
+using namespace std;
+
+int main (){
+    
+    cout << "===Variables y Tipos de Datos (01_variables.cpp)===" << "\n";
+    
+    // Declaración e inicialización de variables enteras
+    int numero1 = 10;
+    int numero2 = 25;
+    
+     // Declaración e inicialización de variables flotantes
+    float decimal1 = 3.14;
+    float decimal2 = 7.89;
+    
+    // Declaración e inicialización de variable carácter
+    char letra = 'A';
+    
+     // Impresión de valores en consola
+    cout << "- Valores de las variables -" << "\n";
+    cout << "Numero 1 (int): " << numero1 << "\n";
+    cout << "Numero 2 (int): " << numero2 << "\n";
+    cout << "Decimal 1 (float): " << decimal1 << "\n";
+    cout << "Decimal 2 (float): " << decimal2 << "\n";
+    cout << "Letra (char): " << letra << "\n";
+    
+ // El int se utiliza para declarar numeros enteros ya sean negativos o positivos, se recomienda utilizar en valores absolutos osea que no tengan parte decimal 
+ // El Float se utiliza para declara numero pero esta vez si de fomra decimal, se recomienda utilizar en aquellos calculos que sean de porcentajes que se requiera de una parte decimal 
+ // El Char se utiliza para declarar variables de tipo texto 
+ 
+ cout << "=== Operadores (02_operadores.cpp) ===" << "\n";
+ 
+    int num1, num2;
+    
+    // Entrada de datos
+    cout << "Ingrese el primer numero entero: ";
+    cin >> num1;
+    
+    cout << "Ingrese el segundo numero entero: ";
+    cin >> num2;
+
+    // Operaciones básicas
+    int suma = num1 + num2;
+    int resta = num1 - num2;
+    int multiplicacion = num1 * num2;
+    float division;   // la división puede tener decimales
+    int modulo;
+ 
+    if (num2 != 0) {
+        division = static_cast<float>(num1) / num2;  // conversión para resultado decimal
+        modulo = num1 % num2;
+    } else {
+        division = 0;
+        modulo = 0;
+        cout << "\n No se puede dividir ni calcular el módulo por cero.\n";
+    }
+ 
+  // Salida de resultados
+    cout << "\n=== Resultados ===" << "\n" ;
+    cout << "Suma: " << suma << "\n" ;
+    cout << "Resta: " << resta << "\n" ;
+    cout << "Multiplicacion: " << multiplicacion << "\n" ;
+    
+    if (num2 != 0) {
+        cout << "Division: " << division << endl;
+        cout << "Modulo: " << modulo << endl;
+    }
+
+    return 0;
+    
+// == lo que hace este comparador es que revisa que si dos valores dados son iguales y asi determinar si es un True (Verdadero) y en el caso que amos valores no sean iguales este se convertira en un false(Falso)
+// != Lo que hace este otro comparador es que analisa si los valores son distintos y si determina que son distintos este se convierte en un valor verdadero y en el caso de que ambos valores no sean distintos esto se convertira en algo falso
+
+    //Ejemplo: 
+    
+    int a = 10;
+    int b = 20;
+    
+     // Operador ==
+    if (a == b) {
+        cout << "a y b son iguales" << endl;
+    } else {
+        cout << "a y b NO son iguales" << endl;
+    }
+
+    // Operador !=
+    if (a != b) {
+        cout << "a y b son diferentes" << endl;
+    } else {
+        cout << "a y b NO son diferentes" << endl;
+    }
+
+    return 0;
+    
+    cout << "=== Condicionales (03_condicionales.cpp) ===" << "\n";
+
+// && este operador logico se cumple cuando ambas condiciones son verdaderas 
+// || este operador logico se cumple cuando alguna de las dos condiciones es verdadera 
+// ! este operador lo que hace en negar la condicion o invertir el valor de una condicion, es decir que lo que era verdadero en un principio al final será falso 
+// Y lo que era falso en un principio al final será verdadero 
+
+    // Operador && (AND)
+    if (edad >= 18 && tieneLicencia) {
+        cout << "Puedes conducir." << "\n";
+    }
+    // Operador || (OR)
+    if (edad < 18 || !tieneLicencia) {
+        cout << "No puedes conducir legalmente." << "\n";
+    }
+    // Operador ! (NOT)
+    bool esMayor = (edad >= 18);
+    if (!esMayor) {
+        cout << "Eres menor de edad." << endl;
+    }
+    return 0;
+}
+
