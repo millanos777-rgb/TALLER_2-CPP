@@ -1,0 +1,154 @@
+//  Sección A — Opción múltiple (10 × 3 pts = 30 pts) 
+//  1) ¿Cuál declara y define una variable entera con valor 10? 
+//  •	( )   A) int x; x == 10; 
+//  •	(X )  B) int x = 10; 
+//  •	( )   C) int x( ); x = '10'; 
+//  •	( )   D) int x { "10" }; 
+//  2) ¿Qué imprime?   std::cout << 7/2 << " " << 7/2.0; 
+//  •	( )   A) 3 3 
+//  •	( X ) B) 3 3.5 
+//  •	( )   C) 3.5 3.5 
+//  •	( )   D) 3 3.0 
+//  3) Con bool a=true, b=false; ¿Qué imprime?   std::cout << (a&&b) << " " << (a||b) << " " << (!b); 
+//  •	( )   A) true true false 
+//  •	( X ) B) 0 1 1 
+//  •	( )   C) 1 1 0 
+//  •	( )   D) false true true 
+//  4) Dado int x=3; if (x=0) { ... } else { ... } ¿qué ocurre? 
+//  •	( )   A) Error de compilación por asignación en if. 
+//  •	( )   B) Entra al if siempre. 
+//  •	( X ) C) Entra al else porque el valor es 0 tras la asignación. 
+//  •	( )   D) Comportamiento indefinido. 
+//  5) do-while respecto a while: 
+//  •	( )   A) Nunca ejecuta si la condición es falsa. 
+//  •	( X ) B) Ejecuta al menos una vez. 
+//  •	( )   C) Ejecuta exactamente una vez. 
+//  •	( )   D) Es más rápido por definición. 
+//  6) ¿Cuál lee dos enteros separados por espacio? 
+//  •	( )   A) cin << a << b; 
+//  •	( )   B) cin >> a, b; 
+//  •	( X ) C) cin >> a >> b; 
+//  •	( )   D) cin (a, b); 
+//  7) ¿Qué imprime? 
+// int a=5, b=2; std::cout << a + b*3 << '\n'; 
+//  •	( X ) A) 11 
+//  •	( )   B) 21 
+//  •	( )   C) 10 
+//  •	( )   D) 7 
+//  8) ¿Cuál firma pasa un entero por referencia? 
+//  •	( )   A) void f(int n&); 
+//  •	( X ) B) void f(int& n); 
+//  •	( )   C) void f(ref int n); 
+//  •	( )   D) int& f(int n); 
+//  9) ¿Qué hace continue en un for? 
+//  •	( )   A) Termina por completo el bucle. 
+//  •	( X ) B) Salta a la siguiente iteración. 
+//  •	( )   C) Reinicia el contador a 0. 
+//  •	( )   D) Salta dos iteraciones. 
+//  10) ¿Cuál condición es verdadera? 
+//  •	( X ) A) (3 == 3) && !(2 > 5) 
+//  •	( )   B) (3 = 3) || (2 < 1) 
+//  •	( )   C) !(3 == 3) || (2 > 5) 
+//  •	( )   D) (3 != 3) && (2 <= 5) 
+ 
+//  Sección B — Predice la salida (5 × 6 pts = 30 pts) 
+//  Escribe exactamente lo que se imprime (respeta espacios y saltos de línea). 
+//  1) 
+//  int a=5, b=2; 
+//  std::cout << a + b*3 << std::endl; 
+//  Respuesta: 11
+//  2) 
+//  int n=0; while (n<3) {     std::cout << n << " ";     n++; } 
+//  Respuesta: 0 1 2 
+//  3) 
+//  int x=10; 
+//  if (x%2==0) std::cout << "par"; else        std::cout << "impar"; 
+//  Respuesta: par
+//  4) 
+//  int i=3; do { 
+//  std::cout << i--; } while (i>0); 
+//  Respuesta: 321
+//  5) 
+//  int a=1; 
+//  int b = (a++ > 1) ? 100 : 200; std::cout << a << " " << b; 
+//  Respuesta: 2 200 
+
+Sección C — Implementación de funciones (4 × 10 pts = 40 pts) 
+
+// C1) Devuelve el mayor de tres números enteros
+int max3(int a, int b, int c) {
+    if (a >= b && a >= c) {      // Si a es mayor o igual que b y c
+        return a;                // a es el máximo
+    } 
+    else if (b >= a && b >= c) { // Si b es mayor o igual que a y c
+        return b;                // b es el máximo
+    } 
+    else {                       // En caso contrario, el mayor es c
+        return c;
+    }
+}
+// Ejemplo practico
+int main() {
+    cout << "El mayor de (200, 100, 50) es: " << max3(200, 100, 50) << "\n"; 
+    return 0;
+}
+
+// C2) Devuelve la suma de todos los enteros en el rango [a, b]
+int sumaRango(int a, int b) {
+    int suma = 0;
+    for (int i = a; i <= b; i++) {
+        suma += i; // se va acumulando cada número del rango
+    }
+    return suma;
+}
+// Ejemplo practico 
+int main() {
+    cout << "La suma de 1 a 4 es: " << sumaRango(1, 4) << endl; // 10
+    return 0;
+}
+
+// C3) Verifica si el número n contiene el dígito d
+bool contieneDigito(int n, int d) {
+    if (n == 0 && d == 0) return true; // caso especial: 0 contiene 0
+    
+    while (n > 0) {
+        int ultimo = n % 10;  // toma el último dígito del número
+        if (ultimo == d) {    // si coincide con el buscado
+            return true;
+        }
+        n /= 10;              // elimina el último dígito y sigue
+    }
+    return false;             // si termina el ciclo, no lo contiene
+}
+
+// Ejemplo practico 
+int main() {
+    cout << boolalpha; // imprime true / false en lugar de 1/0
+    cout << "¿2543 contiene el dígito 5? " << contieneDigito(2543, 5) << endl; // true
+    cout << "¿1204 contiene el dígito 9? " << contieneDigito(1204, 9) << endl; // false
+    return 0;
+}
+
+// C4) Imprime la tabla de multiplicar del número n (del 1 al 10)
+void tablaMultiplicar(int n) {
+    for (int i = 1; i <= 10; i++) {
+        cout << n << " x " << i << " = " << (n * i) << endl;
+    }
+}
+// Ejemplo practico 
+int main() {
+    cout << "Tabla de multiplicar del 3:\n";
+    tablaMultiplicar(3);
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
