@@ -1,0 +1,452 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+    // NIVEL 1: GETTERS Y SETTERS
+
+    // 1.1 Clase Vehículo
+class Vehiculo {
+private:
+    string marca;
+    string modelo;
+    int año;
+    double velocidadMaxima;
+
+public:
+    Vehiculo(string m, string mo, int a, double v) {
+        setMarca(m);
+        setModelo(mo);
+        setAño(a);
+        setVelocidadMaxima(v);
+    }
+    
+    // Getters
+    string getMarca() { return marca; }
+    string getModelo() { return modelo; }
+    int getAño() { return año; }
+    double getVelocidadMaxima() { return velocidadMaxima; }
+    
+    // Setters con validaciones
+    void setMarca(string m) { marca = m; }
+    void setModelo(string m) { modelo = m; }
+    void setAño(int a) {
+        if (a > 1886) año = a;
+        else año = 1887;
+    }
+
+    void setVelocidadMaxima(double v) {
+        if (v > 0) velocidadMaxima = v;
+        else velocidadMaxima = 1;
+    }
+
+    void acelerar(double incremento) { velocidadMaxima += incremento; }
+    virtual void mostrarInfo() {
+        cout << "\n--- Vehiculo ---\n";
+        cout << "Marca: " << marca << endl;
+        cout << "Modelo: " << modelo << endl;
+        cout << "Año: " << año << endl;
+        cout << "Velocidad Maxima: " << velocidadMaxima << " km/h\n";
+    }
+};
+
+    // 1.2 Clase Producto
+
+class Producto {
+private:
+    string codigo;
+    string nombre;
+    double precio;
+    int cantidad;
+
+public:
+    Producto(string c, string n, double p, int ca) {
+        setCodigo(c);
+        setNombre(n);
+        setPrecio(p);
+        setCantidad(ca);
+    }
+
+    // Getters
+    string getCodigo() { return codigo; }
+    string getNombre() { return nombre; }
+    double getPrecio() { return precio; }
+    int getCantidad() { return cantidad; }
+
+    // Setters con validaciones
+    void setCodigo(string c) { codigo = c; }
+    void setNombre(string n) { nombre = n; }
+
+    void setPrecio(double p) {
+        precio = (p >= 0) ? p : 0;
+    }
+
+    void setCantidad(int c) {
+        cantidad = (c >= 0) ? c : 0;
+    }
+
+    double calcularValorTotal() { return precio * cantidad; }
+
+    void aplicarDescuento(double porcentaje) {
+        precio -= precio * (porcentaje / 100);
+    }
+
+    void mostrarInfo() {
+        cout << "\n--- Producto ---\n";
+        cout << "Codigo: " << codigo << "\n";
+        cout << "Nombre: " << nombre << "\n";
+        cout << "Precio: $" << precio << "\n";
+        cout << "Cantidad: " << cantidad << "\n";
+    }
+};
+
+    //  NIVEL 2: HERENCIA SIMPLE
+
+    // 2.1 Auto hereda de Vehiculo
+class Auto : public Vehiculo {
+private:
+    int numeroPuertas;
+    string tipoCombustible;
+public:
+    Auto(string m, string mo, int a, double v, int p, string t)
+        : Vehiculo(m, mo, a, v) {
+        numeroPuertas = p;
+        tipoCombustible = t;
+    }
+    void mostrarInfo() override {
+        cout << "\n--- Auto ---\n";
+        Vehiculo::mostrarInfo();
+        cout << "Puertas: " << numeroPuertas << "\n";
+        cout << "Combustible: " << tipoCombustible << "\n";
+    }
+};
+
+    // 2.1 Motocicleta hereda de Vehiculo
+
+class Motocicleta : public Vehiculo {
+private:
+    bool tieneAleron;
+    int cilindrada;
+public:
+    Motocicleta(string m, string mo, int a, double v, bool tal, int ci)
+        : Vehiculo(m, mo, a, v) {
+        tieneAleron = tal;
+        cilindrada = ci;
+    }
+
+    void mostrarInfo() override {
+        cout << "\n--- Motocicleta ---\n";
+        Vehiculo::mostrarInfo();
+        cout << "¿Tiene Aleronn? " << (tieneAleron ? "Si" : "No") << "\n";
+        cout << "Cilindrada: " << cilindrada << " cc\n";
+    }
+};
+
+
+    // 2.2 Sistema de Empleados
+
+class Empleado {
+protected:
+    string nombreCompleto;
+    string numeroEmpleado;
+    double salarioBase;
+public:
+    Empleado(string n, string num, double s) {
+        nombreCompleto = n;
+        numeroEmpleado = num;
+        salarioBase = s;
+    }
+    
+    virtual double calcularSalarioTotal() = 0;
+
+    virtual void mostrarInfo() {
+        cout << "\n--- Empleado ---\n";
+        cout << "Nombre: " << nombreCompleto << "\n";
+        cout << "Numero: " << numeroEmpleado << "\n";
+        cout << "Salario Base: " << salarioBase << "\n";
+    }
+};
+
+class EmpleadoTiempoCompleto : public Empleado {
+private:
+    string beneficios;
+    double bono;
+
+public:
+    EmpleadoTiempoCompleto(string n, string num, double s, string b, double bn)
+        : Empleado(n, num, s), beneficios(b), bono(bn) {}
+
+    double calcularSalarioTotal() override {
+        return salarioBase + bono;
+    }
+
+    void mostrarInfo() override {
+        cout << "\n--- Empleado Tiempo Completo ---\n";
+        Empleado::mostrarInfo();
+        cout << "Beneficios: " << beneficios << "\n";
+        cout << "Bono: $" << bono << "\n";
+    }
+};
+
+class EmpleadoPorHoras : public Empleado {
+private:
+    int horasTrabajadas;
+    double tarifaPorHora;
+
+public:
+    EmpleadoPorHoras(string n, string num, double s, int h, double t)
+        : Empleado(n, num, s), horasTrabajadas(h), tarifaPorHora(t) {}
+
+    double calcularSalarioTotal() override {
+        return horasTrabajadas * tarifaPorHora;
+    }
+
+    void mostrarInfo() override {
+        cout << "\n--- Empleado por Horas ---\n";
+        Empleado::mostrarInfo();
+        cout << "Horas: " << horasTrabajadas << "\n";
+        cout << "Tarifa: $" << tarifaPorHora << "\n";
+    }
+};
+
+    // NIVEL 3: HERENCIA MULTINIVEL
+
+class Animal {
+protected:
+    string nombre;
+    int edad;
+    double peso;
+
+public:
+    Animal(string n, int e, double p) : nombre(n), edad(e), peso(p) {}
+
+    virtual void hacerSonido() = 0;
+    virtual void mostrarInfo() {
+        cout << "\n--- Animal ---\n";
+        cout << "Nombre: " << nombre << endl;
+        cout << "Edad: " << edad << endl;
+        cout << "Peso: " << peso << " kg\n";
+    }
+};
+
+    // Intermedia Mamífero
+class Mamifero : public Animal {
+protected:
+    bool tieneCola;
+
+public:
+    Mamifero(string n, int e, double p, bool tc)
+        : Animal(n, e, p), tieneCola(tc) {}     
+    void mostrarInfo() override {
+        Animal::mostrarInfo();
+        cout << "Tiene cola: " << (tieneCola ? "Si" : "No") << "\n";
+    }
+};
+
+    // Intermedia Ave
+class Ave : public Animal {
+protected:
+    double envergadura;
+
+public:
+    Ave(string n, int e, double p, double env)
+        : Animal(n, e, p), envergadura(env) {}
+
+    void mostrarInfo() override {
+        Animal::mostrarInfo();
+        cout << "Envergadura: " << envergadura << " m\n";
+    }
+};
+
+    // Finales
+class Perro : public Mamifero {
+public:
+    Perro(string n, int e, double p, bool t) : Mamifero(n, e, p, t) {}
+    void hacerSonido() override { cout << "Guau Guau!\n"; }
+};
+
+class Gato : public Mamifero {
+public:
+    Gato(string n, int e, double p, bool t) : Mamifero(n, e, p, t) {}
+    void hacerSonido() override { cout << "Miau Miau!\n"; }
+};
+
+class Loro : public Ave {
+public:
+    Loro(string n, int e, double p, double env) : Ave(n, e, p, env) {}
+    void hacerSonido() override { cout << "Piiii Piiii!\n"; }
+};
+
+class Aguila : public Ave {
+public:
+    Aguila(string n, int e, double p, double env) : Ave(n, e, p, env) {}
+    void hacerSonido() override { cout << "Grrrrr!\n"; }
+};
+
+    // NIVEL 4: SISTEMA UNIVERSITARIO
+
+class Persona {
+protected:
+    string nombre;
+    int edad;
+    string cedula;
+
+public:
+    Persona(string n, int e, string c) : nombre(n), edad(e), cedula(c) {}
+
+    virtual void mostrarInfo() {
+        cout << "\n--- Persona ---\n";
+        cout << "Nombre: " << nombre << "\n";
+        cout << "Edad: " << edad << "\n";
+        cout << "Cedula: " << cedula << "\n";
+    }
+};
+
+class Professor;  // Adelanto
+
+class Curso {
+private:
+    string codigo;
+    string nombre;
+    int creditos;
+    string profesor;
+
+public:
+    Curso(string c, string n, int cr, string p)
+        : codigo(c), nombre(n), creditos(cr), profesor(p) {}
+
+    void mostrarCurso() {
+        cout << "Curso: " << nombre << " (" << codigo << "), Créditos: " << creditos
+             << ", Profesor: " << profesor << endl;
+    }
+};
+
+class Estudiante : public Persona {
+private:
+    string carrera;
+    double promedio;
+    int semestre;
+    vector<Curso> cursos;
+
+public:
+    Estudiante(string n, int e, string c, string ca, double p, int s)
+        : Persona(n, e, c), carrera(ca), promedio(p), semestre(s) {}
+
+    void matricularCurso(Curso c) { cursos.push_back(c); }
+
+    double calcularPromedioActual() { return promedio; }
+
+    void mostrarInfo() override {
+        Persona::mostrarInfo();
+        cout << "Carrera: " << carrera <<"\n";
+        cout << "Promedio: " << promedio <<"\n";
+        cout << "Semestre: " << semestre <<"\n";
+        cout << "Cursos matriculados:\n";
+        for (auto &c : cursos) c.mostrarCurso();
+    }
+};
+
+class Profesor : public Persona {
+private:
+    string especialidad;
+    int añosExperiencia;
+    int numeroEstudiantes;
+
+public:
+    Profesor(string n, int e, string c, string esp, int ae, int ne)
+        : Persona(n, e, c), especialidad(esp), añosExperiencia(ae), numeroEstudiantes(ne) {}
+
+    bool estaDisponible(int hora) {
+        return hora >= 8 && hora <= 16;
+    }
+
+    void mostrarInfo() override {
+        Persona::mostrarInfo();
+        cout << "Especialidad: " << especialidad << endl;
+        cout << "Experiencia: " << añosExperiencia << " años\n";
+        cout << "Estudiantes a cargo: " << numeroEstudiantes << endl;
+    }
+};
+
+class Personal : public Persona {
+private:
+    string puesto;
+    string departamento;
+    double salario;
+
+public:
+    Personal(string n, int e, string c, string p, string d, double s)
+        : Persona(n, e, c), puesto(p), departamento(d), salario(s) {}
+    double calcularSalarioMensual() { return salario; }
+    
+    void mostrarInfo() override {
+        Persona::mostrarInfo();
+        cout << "Puesto: " << puesto << endl;
+        cout << "Departamento: " << departamento << endl;
+        cout << "Salario: " << salario << endl;
+    }
+};
+
+    // INT MAIN — DE TODOS LOS EJERCICIOS
+
+int main() {
+
+    cout << "\n===== NIVEL 1 =====\n";
+
+    Vehiculo auto1("Toyota", "Corolla", 2023, 180);
+    auto1.mostrarInfo();
+    auto1.acelerar(20);
+    auto1.mostrarInfo();
+
+    Producto laptop("001", "Laptop HP", 850.00, 5);
+    laptop.mostrarInfo();
+    cout << "Valor total: $" << laptop.calcularValorTotal() <<"\n";
+    laptop.aplicarDescuento(10);
+    laptop.mostrarInfo();
+
+    cout << "\n===== NIVEL 2 =====\n";
+
+    Auto miAuto("Ford", "Mustang", 2023, 220, 4, "Gasolina");
+    Motocicleta miMoto("Harley-Davidson", "Sportster", 2023, 200, true, 1200);
+
+    miAuto.mostrarInfo();
+    miMoto.mostrarInfo();
+
+    EmpleadoTiempoCompleto emp1("Juan López", "001", 2000, "Seguro médico", 500);
+    EmpleadoPorHoras   emp2("María García", "002", 0, 40, 15);
+
+    emp1.mostrarInfo();
+    cout << "Salario: $" << emp1.calcularSalarioTotal() <<"\n";
+
+    emp2.mostrarInfo();
+    cout << "Salario: $" << emp2.calcularSalarioTotal() <<"\n";
+    
+    cout << "\n===== NIVEL 3 =====\n";
+
+    Perro perro("Rex", 5, 25, true);
+    perro.mostrarInfo();
+    perro.hacerSonido();
+    
+    Gato gato("Whiskers", 3, 4.5, false);
+    gato.mostrarInfo();
+    gato.hacerSonido();
+
+    Loro loro("Tweety", 2, 0.5, 0.3);
+    loro.mostrarInfo();
+    loro.hacerSonido();
+
+    cout << "\n===== NIVEL 4 =====\n";
+
+    Estudiante est("Carlos Pérez", 20, "123456", "Ingeniería", 4.3, 5);
+    est.matricularCurso(Curso("MAT101", "Matemáticas", 3, "Dr. López"));
+    est.matricularCurso(Curso("PROG1", "Programación", 4, "Ing. Ramírez"));
+    est.mostrarInfo();
+
+    Profesor prof("Laura Gómez", 45, "789000", "Sistemas", 20, 100);
+    prof.mostrarInfo();
+
+    Personal pers("Pedro Ruiz", 38, "456789", "Administrador", "Finanzas", 2500);
+    pers.mostrarInfo();
+    
+    return 0;
+}
